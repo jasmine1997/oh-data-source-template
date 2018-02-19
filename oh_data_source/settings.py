@@ -15,10 +15,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getenv('DEBUG', '').lower() == 'false' else True
 
-HEROKU_APP = True if os.getenv('HEROKU_APP', '').lower() == 'true' else False
+HEROKUCONFIG_APP_NAME = os.getenv('HEROKUCONFIG_APP_NAME', '')
+ON_HEROKU = bool(HEROKUCONFIG_APP_NAME)
 
 # Allow all host headers if this is running as a Heroku app.
-if HEROKU_APP:
+if ON_HEROKU:
     ALLOWED_HOSTS = ['*']
 else:
     ALLOWED_HOSTS = []
@@ -28,7 +29,13 @@ OH_CLIENT_ID = os.getenv('OH_CLIENT_ID')
 OH_CLIENT_SECRET = os.getenv('OH_CLIENT_SECRET')
 OH_ACTIVITY_PAGE = os.getenv('OH_ACTIVITY_PAGE')
 OH_BASE_URL = 'https://www.openhumans.org'
-APP_BASE_URL = os.getenv('APP_BASE_URL', 'http://127.0.0.1:5000')
+
+# Set up base URL.
+DEFAULT_BASE_URL = ('https://{}.herokuapp.com'.format(HEROKUCONFIG_APP_NAME) if
+                    ON_HEROKU else 'http://127.0.0.1:5000')
+APP_BASE_URL = os.getenv('APP_BASE_URL', DEFAULT_BASE_URL)
+if APP_BASE_URL[-1] == "/":
+    APP_BASE_URL = APP_BASE_URL[:-1]
 
 # Applications installed
 INSTALLED_APPS = [

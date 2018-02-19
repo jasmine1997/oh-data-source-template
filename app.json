@@ -1,0 +1,35 @@
+{
+  "name": "OH Data Source Template",
+  "description": "A demo app to add demo project data to an Open Humans account.",
+  "repository": "https://github.com/OpenHumans/oh-data-source-template",
+  "keywords": ["django"],
+  "scripts": {
+    "postdeploy": "python manage.py init_proj_config"
+  },
+  "env": {
+    "HEROKUCONFIG_APP_NAME": {
+      "description": "Heroku \"App name\" (copy/paste what you set above)",
+      "required": true
+    },
+    "OH_CLIENT_ID": {
+      "description": "Open Humans OAuth2 Client ID",
+      "required": true
+    },
+    "OH_CLIENT_SECRET": {
+      "description": "Open Humans OAuth2 Client Secret",
+      "required": true
+    },
+    "OH_ACTIVITY_PAGE": {
+      "description": "Open Humans OAuth2 Activity Page",
+      "required": true
+    },
+    "SECRET_KEY": {
+      "description": "This is set for you and is used to encrypt data.",
+      "generator": "secret"
+    }
+  },
+  "addons": [
+    "cloudamqp",
+    "heroku-postgresql"
+  ]
+}
